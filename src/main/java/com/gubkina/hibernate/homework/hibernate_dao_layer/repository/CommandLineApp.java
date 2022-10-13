@@ -43,8 +43,8 @@ public class CommandLineApp implements CommandLineRunner {
                             .phoneNumber("222345" + i)
                             .build();
                     //сохраняем каждого человека в таблицу persons
-                    //System.out.println(person);
-                    //entityManager.persist(person);
+//                    System.out.println(person);
+//                    entityManager.persist(person);
 
                 });
 
