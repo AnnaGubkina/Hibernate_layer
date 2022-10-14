@@ -30,7 +30,9 @@ public class PersonService {
 
     @Transactional
     public Optional<Person> getPersonByNameAndSurname(String name, String surname) {
-        return personRepository.findFirstPersonByContactNameAndContactSurname(name,surname);
+        return Optional.ofNullable(personRepository.findPersonByContactNameAndContactSurname(name, surname)
+                .orElseThrow(() -> new NoSuchPersonException("There is no Person with name " + name +
+                        ", surname " + surname + " in Database")));
     }
 
     //CRUD
@@ -42,8 +44,8 @@ public class PersonService {
 
     @Transactional
     public Person getPersonsByContact(String name, String surname, int age) {
-        Person personByContact = personRepository.findPersonByContactNameAndContactSurnameAndContactAge(name,surname,age);
-        if(personByContact == null) {
+        Person personByContact = personRepository.findPersonByContactNameAndContactSurnameAndContactAge(name, surname, age);
+        if (personByContact == null) {
             throw new NoSuchPersonException("There is no Person with name " + name +
                     ", surname " + surname + ", age " + age + " in Database");
         }
@@ -53,7 +55,7 @@ public class PersonService {
     @Transactional
     public Person updatePersonByContact(Person person) {
         Person personForUpdate = personRepository.findPersonByContact(person.getContact());
-        if(personForUpdate == null) {
+        if (personForUpdate == null) {
             throw new NoSuchPersonException("There is no Person with  " + person.getContact() + " in Database");
         }
         personForUpdate.setCity(person.getCity());

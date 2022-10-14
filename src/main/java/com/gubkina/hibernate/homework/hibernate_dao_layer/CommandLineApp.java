@@ -1,12 +1,10 @@
-package com.gubkina.hibernate.homework.hibernate_dao_layer.repository;
+package com.gubkina.hibernate.homework.hibernate_dao_layer;
 
 import com.gubkina.hibernate.homework.hibernate_dao_layer.entity.Contact;
 import com.gubkina.hibernate.homework.hibernate_dao_layer.entity.Person;
+import com.gubkina.hibernate.homework.hibernate_dao_layer.repository.PersonRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Random;
@@ -20,8 +18,11 @@ import java.util.stream.IntStream;
 @Component
 public class CommandLineApp implements CommandLineRunner {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    private PersonRepository personRepository;
+
+    public CommandLineApp(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
 
     @Override
     @Transactional
@@ -29,9 +30,9 @@ public class CommandLineApp implements CommandLineRunner {
 
         List<String> cities = List.of("Moscow", "New York", "Bangkok", "Paris", "Dubai");
         List<String> names = List.of("Anna", "Vasya", "Olga", "Tomas", "Leo", "Ilon", "Joe", "Grisha", "Gosha");
-        List<String> surnames = List.of("Twen", "Mask", "Grey", "Armstrong", "Kim", "Yang", "Listerman");
+        List<String> surnames = List.of("Twen", "Mask", "Grey", "Armstrong", "Kim", "Yang", "Listerman", "Miller", "Hanks", "Grach");
         Random random = new Random();
-        IntStream.range(0, 100)
+        IntStream.range(0, 15)
                 .forEach(i -> {
                     Person person = Person.builder()
                             .contact(Contact.builder()
@@ -44,9 +45,8 @@ public class CommandLineApp implements CommandLineRunner {
                             .build();
                     //сохраняем каждого человека в таблицу persons
 //                    System.out.println(person);
-//                    entityManager.persist(person);
+//                    personRepository.save(person);
 
                 });
-
     }
 }
